@@ -8,7 +8,37 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TabControl>
-
+            <TabItem Header ="Create Entry">
+                <StackPanel Grid.Column="1" Margin="50">
+                    <Label x:Name="lblBuyerName" Content="Buyer Name:" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="txtBuyerName"/>
+                    <Label x:Name="lblNumberOfShares" Content="# of Shares:" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="txtNumberOfShares"/>
+                    <Label x:Name="lblDatePurchased" Content="Date Purchased:" HorizontalAlignment="Left"/>
+                    <DatePicker x:Name="dtpDateSelected"/>
+                    <Label x:Name="lblShareType" Content="Share Type:" HorizontalAlignment="Left"/>
+                    <RadioButton x:Name ="radCommon" Content="Common" IsChecked="True"/>
+                    <RadioButton x:Name ="radPreferred" Content="Preferred"/>
+                    <Button x:Name="btnCreateEntry" Content="Create Entry" Margin="50" Click="btnCreateEntry_Click"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem x:Name ="tiViewSummary" Header ="View Summary">
+                <StackPanel Grid.Column="1" Margin="50">
+                    <Label x:Name="lblCommonSharesSold" Content="# of Shares Common Shares Sold:" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="txtCommonSharesSold" Background="DarkGray"/>
+                    <Label x:Name="lblPreferredSharesSold" Content="# of Preferred Shares Sold:" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="txtPreferredSharesSold" Background="DarkGray"/>
+                    <Label x:Name="lblRevenueGenerated" Content="Revenue Generated:" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="txtRevenueGenerated" Background="DarkGray"/>
+                    <Label x:Name="lblCommonSharesAvailable" Content="Common Shares Available:" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="txtCommonSharesAvailable" Background="DarkGray"/>
+                    <Label x:Name="lblPreferredSharesAvailable" Content="Preferred Shares Available:" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="txtPreferredSharesAvailable" Background="DarkGray"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem x:Name ="tiViewEntries" Header="View Entries" GotFocus="tiViewEntries_GotFocus">
+                <DataGrid Name="viewEntriesGrid"/>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
