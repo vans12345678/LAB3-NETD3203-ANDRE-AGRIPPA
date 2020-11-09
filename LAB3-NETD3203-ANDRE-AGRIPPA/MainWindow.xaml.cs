@@ -7,6 +7,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -29,17 +30,27 @@ namespace LAB3_NETD3203_ANDRE_AGRIPPA
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ObservableCollection<Share> sharesCollection = new ObservableCollection<Share>();
         public MainWindow()
         {
-            //Initialize MainWindow contents
+            //Initialize MainWindow contents and db summary contents
             InitializeComponent();
             ViewSummary();
+
+            lsvViewObjects.ItemsSource = sharesCollection;
         }
 
         private void btnCreateEntry_Click(object sender, RoutedEventArgs e)
         {
             //Gets date from date picker
-            string date = dtpDateSelected.SelectedDate.ToString();
+            string date = dtpDateSelected.Text;
+
+            //Constants for price and voting power
+            const int commonPrice = 42;
+            const int preferredPrice = 100;
+            const int commonVotingPower = 1;
+            const int preferredVotingPower = 10;
+
 
             //If buyer name is not empty
             if (txtBuyerName.Text != string.Empty)
@@ -95,7 +106,7 @@ namespace LAB3_NETD3203_ANDRE_AGRIPPA
                              string insert = "INSERT INTO [CreateEntry](buyerName, shares, datePurchased, shareType) VALUES('" + txtBuyerName.Text + "', '" + shares + "', '" +
                                         date + "', '" + selectedShare + "')";
 
-                            //Execute command
+                             //Execute command
                             SqlCommand command = new SqlCommand(insert, conn);
                             command.ExecuteNonQuery();
                             string updateQuery = "";
@@ -103,17 +114,29 @@ namespace LAB3_NETD3203_ANDRE_AGRIPPA
                             //Update number of common or preferred shares
                             if (selectedShare == "Common")
                             {
+                                //Update sql db for number of common shares 
                                 updateQuery = "UPDATE NumberOfShares SET numCommonShares = '" + availableShares + "' ";
                                 SqlCommand sqlUpdateShareCommand = new SqlCommand(updateQuery, conn);
                                 sqlUpdateShareCommand.ExecuteScalar();
+
+                                //Create common share object and add to observable collection
+                                string name = txtBuyerName.Text;
+                                CommonShare shareObject = new CommonShare(commonPrice, commonVotingPower, name, date, shares, selectedShare);
+                                sharesCollection.Add(shareObject);
                             }
                             else
                             {
+                                //Update sql db for number of preferred shares 
                                 updateQuery = "UPDATE NumberOfShares SET numPreferredShares = '" + availableShares + "' ";
                                 SqlCommand sqlUpdateShareCommand = new SqlCommand(updateQuery, conn);
                                 sqlUpdateShareCommand.ExecuteScalar();
+
+                                //Create preferred share object and add to observable collection
+                                string name = txtBuyerName.Text;
+                                PreferredShare shareObject = new PreferredShare(preferredPrice, preferredVotingPower, name, date, shares, selectedShare);
+                                sharesCollection.Add(shareObject);
                             } 
-                            MessageBox.Show("Successfully added equipment entry");
+                            MessageBox.Show("Successfully added share entry");
                         }
                         
                         //Close db connection

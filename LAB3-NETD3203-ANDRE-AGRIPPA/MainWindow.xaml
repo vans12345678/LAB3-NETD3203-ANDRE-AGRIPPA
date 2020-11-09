@@ -39,6 +39,20 @@
             <TabItem x:Name ="tiViewEntries" Header="View Entries" GotFocus="tiViewEntries_GotFocus">
                 <DataGrid Name="viewEntriesGrid"/>
             </TabItem>
+            <TabItem x:Name ="tiViewObjects" Header="View Objects">
+                <ListView x:Name="lsvViewObjects">
+                    <ListView.View>
+                        <GridView x:Name="objectsGridView">
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding BuyerName}"/>
+                            <GridViewColumn Header="NumberOfShares" DisplayMemberBinding="{Binding NumberOfShares}"/>
+                            <GridViewColumn Header="DatePurchased" DisplayMemberBinding="{Binding BuyDate}"/>
+                            <GridViewColumn Header="ShareType" DisplayMemberBinding="{Binding ShareType}"/>
+                            <GridViewColumn Header="SharePrice" DisplayMemberBinding="{Binding SharePrice}"/>
+                            <GridViewColumn Header="VotingPower" DisplayMemberBinding="{Binding ShareVotingPower}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
